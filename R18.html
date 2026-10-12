@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="免责声明:和同学玩笑内容,切勿当真">
+    <title>肖哥语录 · 免责声明</title>
+    <style>
+        :root {
+            --bg: #0f1115;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.07);
+            --accent: #ff4d6d;
+            --accent-soft: rgba(255, 77, 109, 0.15);
+            --text: #e8eaed;
+            --text-dim: #9aa0a6;
+            --text-faint: #5f6368;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            padding: 48px 20px 80px;
+            background-image:
+                radial-gradient(circle at 15% 0%, rgba(255, 77, 109, 0.08), transparent 45%),
+                radial-gradient(circle at 85% 100%, rgba(77, 148, 255, 0.06), transparent 45%);
+            background-attachment: fixed;
+        }
+
+        .wrap {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        /* ---------- 页头 ---------- */
+        .header {
+            text-align: center;
+            margin-bottom: 42px;
+            animation: fadeUp 0.7s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .header .tag {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .header h1 {
+            font-size: clamp(22px, 5vw, 32px);
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ffffff 20%, #ff8fa3 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header .sub {
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+
+        /* ---------- 卡片列表 ---------- */
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .item {
+            position: relative;
+            padding: 20px 22px 20px 56px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            font-size: 15.5px;
+            line-height: 1.75;
+            color: var(--text);
+            transition: background 0.25s ease, border-color 0.25s ease,
+                transform 0.25s ease, box-shadow 0.25s ease;
+            animation: fadeUp 0.6s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .item:hover {
+            background: var(--card-hover);
+            border-color: rgba(255, 77, 109, 0.35);
+            transform: translateX(4px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        /* 序号圆点 */
+        .item::before {
+            content: counter(item);
+            counter-increment: item;
+            position: absolute;
+            left: 18px;
+            top: 20px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid rgba(255, 77, 109, 0.25);
+            border-radius: 50%;
+            line-height: 1;
+        }
+
+        .list {
+            counter-reset: item;
+        }
+
+        /* 逐条入场延迟 */
+        .item:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .item:nth-child(2) {
+            animation-delay: 0.10s;
+        }
+
+        .item:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .item:nth-child(4) {
+            animation-delay: 0.20s;
+        }
+
+        .item:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .item:nth-child(6) {
+            animation-delay: 0.30s;
+        }
+
+        .item:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        .item:nth-child(8) {
+            animation-delay: 0.40s;
+        }
+
+        .item:nth-child(9) {
+            animation-delay: 0.45s;
+        }
+
+        .item:nth-child(10) {
+            animation-delay: 0.50s;
+        }
+
+        .item:nth-child(11) {
+            animation-delay: 0.55s;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* ---------- 页脚 ---------- */
+        .footer {
+            margin-top: 48px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-faint);
+            line-height: 1.9;
+            border-top: 1px dashed rgba(255, 255, 255, 0.08);
+            padding-top: 28px;
+            animation: fadeUp 0.7s cubic-bezier(.22, 1, .36, 1) 0.6s both;
+        }
+
+        .footer strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ---------- 小屏适配 ---------- */
+        @media (max-width: 480px) {
+            body {
+                padding: 32px 14px 60px;
+            }
+
+            .item {
+                padding: 17px 16px 17px 48px;
+                font-size: 14.5px;
+            }
+
+            .item::before {
+                left: 14px;
+                top: 17px;
+                width: 22px;
+                height: 22px;
+                font-size: 11px;
+            }
+
+            .header {
+                margin-bottom: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrap">
+
+        <!-- 页头 -->
+        <header class="header">
+            <span class="tag">免责声明</span>
+            <h1>肖哥语录合集</h1>
+            <p class="sub">--78 公司 高总--</p>
+        </header>
+
+        <!-- 内容列表 -->
+        <main class="list">
+
+            <div class="item">上次和肖哥看建国大业，他一直问我有没有反转</div>
+
+            <div class="item">上次和肖哥辩论一晚上，我还是觉得台湾是中国的</div>
+
+            <div class="item">肖哥挺不耻下问的，上次看升旗他问我放的什么歌</div>
+
+            <div class="item">上次我和肖哥畅聊了一晚上，他的大部分观点我都还是认同的，但我还是觉得只有中国共产党才能引领人民走向胜利。</div>
+
+            <div class="item">我问肖哥放国庆了吗，j 哥说我们国家哪有国庆</div>
+
+            <div class="item">上次和肖哥一起看《大决战》，看完他一直说惜败</div>
+
+            <div class="item">肖哥，由於你的突出貢獻，組織已經同意你入黨的請求了（我跟 j 哥說可以入黨了，結果他說要入的是綠色的那個）</div>
+
+            <div class="item">我国は肖哥選手の帰化申請書を受け取りました。Jee 選手が母国語を話すチームで、より優れたパフォーマンスを発揮してくれると信じています。</div>
+
+            <div class="item">肖哥没手感罢了，他说他之前在长江防线时手感好，一狙一个准</div>
+
+            <div class="item">肖哥当年泸定桥 78 公司战绩很亮眼</div>
+
+            <div class="item">刚才我问肖哥是不是日本人，他斥责了我，因为他说国旗上的太阳不是红色的🤓</div>
+            
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <a href="https://pornhub.com" target="_blank">PH</a>
+            <a href="https://xvideo.com" target="_blank">XV</a>
+            <p><strong>免责声明：</strong>以上内容均为同学之间的玩笑，切勿当真。</p>
+            <p>如有冒犯，纯属无意 · 仅供娱乐</p>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
