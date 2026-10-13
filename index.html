@@ -7,300 +7,285 @@
     <title>Age Verification</title>
     <style>
         :root {
-            --bg: #0d0507;
-            --red: #ff2d55;
-            --red-light: #ff6b85;
-            --red-deep: #8b0a1a;
-            --glow: rgba(255, 45, 85, .55);
+            --bg: #000000;
+            --panel-bg: #0a0a0a;
+            --text: #e8e8e8;
+            --text-dim: #9a9a9a;
+            --text-faint: #6b6b6b;
+            --accent: #ffa500;
+            --accent-hover: #ffb733;
+            --border: rgba(255, 255, 255, 0.18);
+            --border-hover: rgba(255, 255, 255, 0.35);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         html,
         body {
-            height: 100%
+            height: 100%;
         }
 
         body {
-            font-family: "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: var(--bg);
-            color: #fff;
-            overflow: hidden;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 16px 60px;
             -webkit-font-smoothing: antialiased;
+            line-height: 1.65;
         }
 
-        body.unlocked {
-            overflow: auto
-        }
-
-        /* ================= 年龄验证遮罩 ================= */
-        .gate {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            background:
-                radial-gradient(circle at 50% 0%, rgba(255, 45, 85, .22), transparent 60%),
-                radial-gradient(circle at 80% 100%, rgba(139, 10, 26, .35), transparent 58%),
-                #0d0507;
-            transition: opacity .5s ease, visibility .5s ease;
-        }
-
-        .gate::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255, 77, 109, .05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 77, 109, .05) 1px, transparent 1px);
-            background-size: 44px 44px;
-            pointer-events: none;
-            -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 25%, transparent 72%);
-            mask-image: radial-gradient(circle at 50% 50%, #000 25%, transparent 72%);
-        }
-
-        .gate.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        /* --------- 卡片 --------- */
-        .gate-box {
-            position: relative;
-            z-index: 1;
+        .panel {
             width: 100%;
-            max-width: 520px;
+            max-width: 780px;
+            background: var(--panel-bg);
+            border-radius: 16px;
+            padding: 48px 40px 56px;
             text-align: center;
-            padding: 44px 36px 34px;
-            border-radius: 22px;
-            background: rgba(255, 45, 85, .05);
-            border: 1px solid rgba(255, 77, 109, .22);
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, .75),
-                0 0 60px rgba(255, 45, 85, .10),
-                inset 0 1px 0 rgba(255, 140, 160, .12);
-            -webkit-backdrop-filter: blur(14px);
-            backdrop-filter: blur(14px);
-            animation: boxIn .7s cubic-bezier(.22, 1, .36, 1) both;
+            position: relative;
         }
 
-        @keyframes boxIn {
-            from {
-                opacity: 0;
-                transform: translateY(28px) scale(.96)
-            }
-
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        /* --------- 18+ 徽章 --------- */
-        .badge {
-            width: 86px;
-            height: 86px;
-            margin: 0 auto 22px;
-            border-radius: 50%;
-            display: flex;
+        /* ---------- 语言切换 ---------- */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: .5px;
-            color: #fff;
-            background: linear-gradient(145deg, #ff2d55, #8b0a1a);
-            box-shadow: 0 0 0 0 var(--glow);
-            animation: pulse 2.4s ease-out infinite;
-            user-select: none;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 var(--glow)
-            }
-
-            70% {
-                box-shadow: 0 0 0 22px rgba(255, 45, 85, 0)
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 45, 85, 0)
-            }
-        }
-
-        .badge.danger {
-            color: #fff;
-            background: linear-gradient(145deg, #ff6b85, #c2001f);
-            animation: none;
-            box-shadow: 0 0 46px rgba(255, 45, 85, .65);
-        }
-
-        /* --------- 文案 --------- */
-        .gate-box h1 {
-            font-size: clamp(21px, 4.6vw, 29px);
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            background: linear-gradient(90deg, #ffffff, #ff6b85 70%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .gate-box p {
-            color: #b3949b;
-            font-size: 15px;
-            line-height: 1.75;
-        }
-
-        .gate-box .fine {
-            margin-top: 22px;
-            font-size: 12px;
-            line-height: 1.6;
-            color: #6d5057;
-        }
-
-        /* --------- 按钮 --------- */
-        .buttons {
-            display: flex;
-            gap: 14px;
-            margin: 30px 0 0;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 16px 18px;
-            border: none;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: transform .18s ease, box-shadow .25s ease,
-                background .25s ease, color .25s ease, border-color .25s ease;
-
-            /* 让 <a> 表现得像按钮 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-dim);
+            font-size: 12.5px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
             text-decoration: none;
+            transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
         }
 
-        .btn:active {
-            transform: scale(.97)
+        .lang-switch:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255, 165, 0, 0.08);
         }
 
-        .btn:focus-visible {
-            outline: 2px solid #fff;
-            outline-offset: 3px
+        .lang-switch svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
-        /* YES —— 红色实心 */
-        .btn-yes {
-            color: #fff;
-            background: linear-gradient(145deg, #ff2d55, #a3001c);
-            box-shadow: 0 10px 30px rgba(255, 45, 85, .38);
+        /* ---------- Logo ---------- */
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            font-size: 44px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1;
+            user-select: none;
+            margin-bottom: 32px;
         }
 
-        .btn-yes:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(145deg, #ff4d6d, #c2001f);
-            box-shadow: 0 16px 44px rgba(255, 45, 85, .60);
+        .logo .white {
+            color: #ffffff;
         }
 
-        /* NO —— 红色描边 */
-        .btn-no {
-            color: #c08491;
-            background: transparent;
-            border: 1px solid rgba(255, 77, 109, .35);
+        .logo .box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #e5a50a;
+            color: #000000;
+            padding: 0 10px;
+            border-radius: 5px;
+            margin-left: 2px;
+            height: 1.15em;
         }
 
-        .btn-no:hover {
-            color: #fff;
-            border-color: var(--red);
-            background: rgba(255, 45, 85, .14);
-            box-shadow: 0 0 24px rgba(255, 45, 85, .25);
+        /* ---------- 顶部 ---------- */
+        .panel h1 {
+            font-size: clamp(26px, 5vw, 40px);
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            color: #ffffff;
+            margin-bottom: 28px;
+            line-height: 1.2;
         }
 
-        /* ================= 网站内容 ================= */
-        .content {
-            min-height: 100%;
+        /* ---------- 小标签按钮 ---------- */
+        .pill {
+            display: inline-block;
+            padding: 9px 22px;
+            border-radius: 999px;
+            border: 1px dashed var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            margin-bottom: 26px;
+            text-decoration: none;
+            transition: border-color 0.25s ease, color 0.25s ease;
+        }
+
+        .pill:hover {
+            border-color: var(--border-hover);
+        }
+
+        /* ---------- 正文段落 ---------- */
+        .notice-text {
+            font-size: 15.5px;
+            line-height: 1.8;
+            color: #d6d6d6;
+            max-width: 640px;
+            margin: 0 auto 14px;
+        }
+
+        .notice-text a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .notice-text a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* ---------- 主要按钮 ---------- */
+        .actions {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 14px;
+            margin: 34px 0 44px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
             justify-content: center;
-            padding: 60px 24px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(16px);
-            transition: opacity .6s ease .15s, transform .6s ease .15s;
+            width: 100%;
+            max-width: 330px;
+            padding: 17px 24px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: border-color 0.25s ease, background 0.25s ease,
+                color 0.25s ease, transform 0.15s ease;
         }
 
-        .content.visible {
-            opacity: 1;
-            transform: none
+        .btn:hover {
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .content h1 {
-            font-size: clamp(28px, 6vw, 46px);
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(90deg, #fff, #ff6b85);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent;
+        .btn:active {
+            transform: scale(0.985);
         }
 
-        .content p {
-            color: #a88b93;
-            font-size: 16px;
-            line-height: 1.8;
-            max-width: 560px;
+        .btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
         }
 
-        .content .hint {
-            margin-top: 28px;
-            font-size: 13px;
-            color: #63474e;
-            border-top: 1px dashed rgba(255, 77, 109, .18);
-            padding-top: 22px;
+        /* ---------- 底部信息区 ---------- */
+        .info {
+            font-size: 14.5px;
+            line-height: 1.85;
+            color: #d6d6d6;
+            max-width: 660px;
+            margin: 0 auto;
         }
 
-        /* --------- 小屏适配 --------- */
-        @media (max-width:420px) {
-            .gate-box {
-                padding: 34px 22px 26px;
-                border-radius: 18px
+        .info p+p {
+            margin-top: 18px;
+        }
+
+        .info strong {
+            display: block;
+            color: #ffffff;
+            font-size: 15.5px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .info a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .info a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 600px) {
+            body {
+                padding: 24px 12px 40px;
             }
 
-            .badge {
-                width: 72px;
-                height: 72px;
-                font-size: 22px;
-                margin-bottom: 18px
+            .panel {
+                padding: 34px 20px 40px;
+                border-radius: 12px;
             }
 
-            .buttons {
-                flex-direction: column;
-                gap: 10px
+            .panel h1 {
+                margin-bottom: 22px;
+            }
+
+            .logo {
+                font-size: 32px;
+                margin-bottom: 24px;
+            }
+
+            .lang-switch {
+                top: 14px;
+                right: 16px;
+                padding: 6px 11px;
+                font-size: 11.5px;
+            }
+
+            .notice-text {
+                font-size: 14.5px;
             }
 
             .btn {
-                padding: 15px
+                padding: 15px 20px;
+                font-size: 14px;
+            }
+
+            .info {
+                font-size: 13.5px;
+            }
+
+            .info strong {
+                font-size: 14.5px;
             }
         }
     </style>
@@ -308,33 +293,79 @@
 
 <body>
 
-    <!-- ============ 年龄验证遮罩 ============ -->
-    <div class="gate" id="age-gate">
-        <div class="gate-box">
-            <div class="badge">18+</div>
+    <main class="panel">
 
-            <h1>Over 18 years old</h1>
+        <!-- 语言切换 -->
+        <a href="./CN_index.html" class="lang-switch">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                </path>
+            </svg>
+            中文
+        </a>
+
+        <!-- Logo -->
+        <div class="logo">
+            <span class="white">78</span>
+            <span class="box">公司</span>
+        </div>
+
+        <!-- 标题 -->
+        <h1>This is an adult website</h1>
+
+        <!-- Notice to Users -->
+        <a href="#" class="pill">Notice to Users</a>
+
+        <!-- 说明文字 -->
+        <p class="notice-text">
+            This website contains age-restricted materials including nudity and explicit
+            depictions of sexual activity. By entering, you affirm that you are at least 18 years of
+            age or the age of majority in the jurisdiction you are accessing the website from and
+            you consent to viewing sexually explicit content.
+        </p>
+
+        <!-- Notice to Law Enforcement -->
+        <p class="notice-text">
+            <a href="./none.html">Notice to Law Enforcement</a>
+        </p>
+
+        <!-- 按钮组 -->
+        <div class="actions">
+            <a href="./main.html" class="btn">I am 18 or older - Enter</a>
+            <a href="https://www.bilibili.com/video/BV17zTNz2EJd/?spm_id_from=333.337.search-card.all.click"
+                class="btn">I am under 18 - Exit</a>
+        </div>
+
+        <!-- 底部信息 -->
+        <div class="info">
 
             <p>
-                This website contains content intended for adults only.<br>
-                Please confirm that you are at least 18 years of age.
+                <strong>Parental Controls</strong>
+                Set up <a href="./none.html">Family Safety</a>,
+                <a href="./none.html">Block Access to Adult Content websites</a>,
+                and enable SafeSearch on your search engine.
             </p>
 
-            <div class="buttons">
-                <a href="./R18.html" class="btn btn-yes">Yes</a>
-                <a href="./R16.html" class="btn btn-no">No, exit</a>
-            </div>
-
-            <p class="fine">
-                By clicking “Yes” you confirm that you are of legal age in your country
-                and you agree to our Terms of Service.
+            <p>
+                Visit our <a href="./none.html">Parental Controls page</a> for step-by-step guidance on
+                blocking access to this website.
             </p>
+
+            <p>
+                <strong>Terms of Service</strong>
+                Visit our <a href="./none.html">Sexual Wellness Centre</a> for information and resources
+                to support sexual health and wellbeing.
+            </p>
+            <a href="./true.html">Get the true</a>
+            <p></p>
+            <a href="./yes.html">Main boss</a>
+            <p></p>
+            <p></p>
+            <a href="./yes2.html">Sub boss</a>
         </div>
-    </div>
 
-    <!-- ============ 正式网站内容 ============ -->
-    <main class="content" id="site-content">
-        <!--ABC-->
     </main>
 
 </body>
